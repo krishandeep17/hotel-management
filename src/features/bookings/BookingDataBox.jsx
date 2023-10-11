@@ -45,7 +45,7 @@ const Header = styled.header`
   }
 
   & span {
-    font-family: "Sono";
+    font-family: "Sono", monospace;
     font-size: 2rem;
     margin-left: 4px;
   }
