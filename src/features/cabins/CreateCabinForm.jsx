@@ -33,7 +33,7 @@ export default function CreateCabinForm() {
     onError: (err) => toast.error(err.message),
   });
 
-  const onSubmit = (data) => mutate(data);
+  const onSubmit = (data) => mutate({ ...data, image: data.image[0] });
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
