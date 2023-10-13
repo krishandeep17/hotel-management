@@ -101,7 +101,7 @@ export default function CabinRow({ cabin }) {
           </button>
         </div>
       </TableRow>
-      {showEditForm && <CreateCabinForm cabinToEdit={cabin} />}
+      {showEditForm && <CreateCabinForm cabinToUpdate={cabin} />}
     </>
   );
 }

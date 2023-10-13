@@ -7,15 +7,15 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Textarea from "../../ui/Textarea";
 import { useCreateCabin } from "./useCreateCabin";
-import { useEditCabin } from "./useEditCabin";
+import { useUpdateCabin } from "./useUpdateCabin";
 
-export default function CreateCabinForm({ cabinToEdit = {} }) {
+export default function CreateCabinForm({ cabinToUpdate = {} }) {
   const { createCabin, isCreating } = useCreateCabin();
-  const { editCabin, isEditing } = useEditCabin();
-  const isWorking = isCreating || isEditing;
+  const { updateCabin, isUpdating } = useUpdateCabin();
+  const isWorking = isCreating || isUpdating;
 
-  const { id: editId, ...editValues } = cabinToEdit;
-  const isEditSession = Boolean(editId);
+  const { id: updateId, ...updateValues } = cabinToUpdate;
+  const isUpdateSession = Boolean(updateId);
 
   const {
     register,
@@ -23,14 +23,14 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
     reset,
     formState: { errors },
     getValues,
-  } = useForm({ defaultValues: isEditSession ? editValues : {} });
+  } = useForm({ defaultValues: isUpdateSession ? updateValues : {} });
 
   function onSubmit(data) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
-    if (isEditSession) {
-      editCabin(
-        { editCabinData: { ...data, image }, id: editId },
+    if (isUpdateSession) {
+      updateCabin(
+        { updateCabinData: { ...data, image }, id: updateId },
         { onSuccess: () => reset() }
       );
     } else {
@@ -101,7 +101,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
               message: "Discount should be at least 0",
             },
             validate: (value) =>
-              value < getValues().regularPrice ||
+              +value < +getValues().regularPrice ||
               "Discount should be less than regular price",
           })}
         />
@@ -135,7 +135,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           disabled={isWorking}
           accept="image/*"
           {...register("image", {
-            required: isEditSession ? false : "This field is required",
+            required: isUpdateSession ? false : "This field is required",
           })}
         />
       </FormRow>
@@ -146,7 +146,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           Cancel
         </Button>
         <Button disabled={isWorking}>
-          {isEditSession ? "Edit cabin" : "Create new cabin"}
+          {isUpdateSession ? "Update cabin" : "Create new cabin"}
         </Button>
       </FormRow>
     </Form>
