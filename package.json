@@ -20,7 +20,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.16.0",
-    "styled-components": "^6.0.8"
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.36.1",

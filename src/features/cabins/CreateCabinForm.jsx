@@ -69,6 +69,10 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           disabled={isWorking}
           {...register("name", {
             required: "This field is required",
+            minLength: {
+              value: 3,
+              message: "Cabin name should be longer than 2 characters.",
+            },
             maxLength: {
               value: 30,
               message: "Cabin name should be no longer than 30 characters",
@@ -85,7 +89,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           {...register("maxCapacity", {
             required: "This field is required",
             min: {
-              value: 0,
+              value: 1,
               message: "Maximum capacity should be at least 1",
             },
           })}
@@ -100,7 +104,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           {...register("regularPrice", {
             required: "This field is required",
             min: {
-              value: 0,
+              value: 1,
               message: "Regular price should be at least 1",
             },
           })}
@@ -114,6 +118,10 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           disabled={isWorking}
           {...register("discount", {
             required: "This field is required",
+            min: {
+              value: 0,
+              message: "Discount should be at least 0",
+            },
             validate: (value) =>
               value < getValues().regularPrice ||
               "Discount should be less than regular price",
@@ -131,6 +139,10 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           disabled={isWorking}
           {...register("description", {
             required: "This field is required",
+            minLength: {
+              value: 3,
+              message: "Description should be longer than 2 characters",
+            },
             maxLength: {
               value: 1000,
               message: "Description should be no longer than 1000 characters",
