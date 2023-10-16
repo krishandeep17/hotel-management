@@ -9,7 +9,10 @@ import Textarea from "../../ui/Textarea";
 import { useCreateCabin } from "./useCreateCabin";
 import { useUpdateCabin } from "./useUpdateCabin";
 
-export default function CreateCabinForm({ cabinToUpdate = {} }) {
+export default function CreateCabinForm({
+  cabinToUpdate = {},
+  handleCloseModal,
+}) {
   const { createCabin, isCreating } = useCreateCabin();
   const { updateCabin, isUpdating } = useUpdateCabin();
   const isWorking = isCreating || isUpdating;
@@ -31,15 +34,31 @@ export default function CreateCabinForm({ cabinToUpdate = {} }) {
     if (isUpdateSession) {
       updateCabin(
         { updateCabinData: { ...data, image }, id: updateId },
-        { onSuccess: () => reset() }
+        {
+          onSuccess: () => {
+            reset();
+            handleCloseModal?.();
+          },
+        }
       );
     } else {
-      createCabin({ ...data, image }, { onSuccess: () => reset() });
+      createCabin(
+        { ...data, image },
+        {
+          onSuccess: () => {
+            reset();
+            handleCloseModal?.();
+          },
+        }
+      );
     }
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      type={handleCloseModal ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -142,7 +161,12 @@ export default function CreateCabinForm({ cabinToUpdate = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button disabled={isWorking} variation="secondary" type="reset">
+        <Button
+          disabled={isWorking}
+          variation="secondary"
+          type="reset"
+          onClick={() => handleCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
