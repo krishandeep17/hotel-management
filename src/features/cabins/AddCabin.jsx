@@ -1,23 +1,17 @@
-import { useState } from "react";
-
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import CreateCabinForm from "./CreateCabinForm";
 
 export default function AddCabin() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
-    <>
-      <Button onClick={() => setIsModalOpen((show) => !show)}>
-        Add new cabin
-      </Button>
-
-      {isModalOpen && (
-        <Modal handleClose={() => setIsModalOpen(false)}>
-          <CreateCabinForm handleCloseModal={() => setIsModalOpen(false)} />
-        </Modal>
-      )}
-    </>
+    // COMPOUND COMPONENT PATTERN //
+    <Modal>
+      <Modal.Open opens="cabin-form">
+        <Button>Add new cabin</Button>
+      </Modal.Open>
+      <Modal.Window name="cabin-form">
+        <CreateCabinForm />
+      </Modal.Window>
+    </Modal>
   );
 }
