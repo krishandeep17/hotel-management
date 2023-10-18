@@ -2,6 +2,7 @@ import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import styled from "styled-components";
 
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 import Table from "../../ui/Table";
 import { formatCurrency } from "../../utils/helpers";
@@ -15,7 +16,7 @@ const Img = styled.img`
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.5) translateX(-7px);
+  transform: scale(1.5) translateX(-5px);
 `;
 
 const Cabin = styled.div`
@@ -74,27 +75,38 @@ export default function CabinRow({ cabin }) {
         <span>&mdash;</span>
       )}
 
-      <div>
-        <button onClick={handleDuplicate} disabled={isCreating}>
-          <HiSquare2Stack />
-        </button>
-        <Modal>
-          <Modal.Open opens="edit-form">
-            <button>
-              <HiPencil />
-            </button>
-          </Modal.Open>
+      <Modal>
+        <Menus.Menu>
+          <Menus.Toggle id={cabinId} />
+
+          <Menus.List id={cabinId}>
+            <li>
+              <Menus.Button
+                onClick={handleDuplicate}
+                disabled={isCreating}
+                icon={<HiSquare2Stack />}
+              >
+                Duplicate
+              </Menus.Button>
+            </li>
+
+            <li>
+              <Modal.Open opens="edit-form">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.Open>
+            </li>
+
+            <li>
+              <Modal.Open opens="confirm-delete">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.Open>
+            </li>
+          </Menus.List>
+
           <Modal.Window name="edit-form">
             <CreateCabinForm cabinToUpdate={cabin} />
           </Modal.Window>
-        </Modal>
 
-        <Modal>
-          <Modal.Open opens="confirm-delete">
-            <button>
-              <HiTrash />
-            </button>
-          </Modal.Open>
           <Modal.Window name="confirm-delete">
             <ConfirmDelete
               resourceName="cabin"
@@ -102,8 +114,8 @@ export default function CabinRow({ cabin }) {
               handleConfirm={() => deleteCabin(cabinId)}
             />
           </Modal.Window>
-        </Modal>
-      </div>
+        </Menus.Menu>
+      </Modal>
     </Table.Row>
   );
 }
