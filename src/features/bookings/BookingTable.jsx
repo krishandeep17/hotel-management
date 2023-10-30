@@ -7,7 +7,7 @@ import BookingRow from "./BookingRow";
 import { useBookings } from "./useBookings";
 
 export default function BookingTable() {
-  const { isLoading, bookings } = useBookings();
+  const { isLoading, bookings, count } = useBookings();
 
   if (isLoading) return <Spinner />;
 
@@ -33,7 +33,7 @@ export default function BookingTable() {
         />
 
         <Table.Footer>
-          <Pagination count={4} />
+          <Pagination count={count} />
         </Table.Footer>
       </Table>
     </Menus>
