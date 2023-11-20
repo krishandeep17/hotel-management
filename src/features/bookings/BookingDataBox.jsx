@@ -2,7 +2,7 @@ import { format, isToday } from "date-fns";
 import {
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineCheckCircle,
-  HiOutlineCurrencyDollar,
+  HiOutlineCurrencyRupee,
   HiOutlineHomeModern,
 } from "react-icons/hi2";
 import styled from "styled-components";
@@ -24,7 +24,7 @@ const StyledBookingDataBox = styled.section`
 const Header = styled.header`
   background-color: var(--color-brand-500);
   padding: 2rem 4rem;
-  color: #e0e7ff;
+  color: var(--color-brand-100);
   font-size: 1.8rem;
   font-weight: 500;
   display: flex;
@@ -115,7 +115,13 @@ export default function BookingDataBox({ booking }) {
     hasBreakfast,
     observations,
     isPaid,
-    guests: { fullName: guestName, email, country, countryFlag, nationalID },
+    guests: {
+      fullName: guestName,
+      email,
+      nationality: country,
+      countryFlag,
+      nationalID,
+    },
     cabins: { name: cabinName },
   } = booking;
 
@@ -164,7 +170,7 @@ export default function BookingDataBox({ booking }) {
         </DataItem>
 
         <Price isPaid={isPaid}>
-          <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
+          <DataItem icon={<HiOutlineCurrencyRupee />} label={`Total price`}>
             {formatCurrency(totalPrice)}
 
             {hasBreakfast &&

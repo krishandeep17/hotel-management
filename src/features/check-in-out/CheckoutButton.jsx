@@ -1,11 +1,9 @@
 import Button from "../../ui/Button";
 
-function CheckoutButton({ bookingId }) {
+export default function CheckOutButton({ bookingId }) {
   return (
     <Button variation="primary" size="small">
       Check out
     </Button>
   );
 }
-
-export default CheckoutButton;
