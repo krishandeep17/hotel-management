@@ -35,6 +35,7 @@ const StyledList = styled.ul`
   top: 4rem;
   right: 0;
   z-index: 1000;
+  width: max-content;
 
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
@@ -42,7 +43,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledButton = styled.button`
-  width: max-content;
+  width: 100%;
   text-align: left;
   background: none;
   border: none;
