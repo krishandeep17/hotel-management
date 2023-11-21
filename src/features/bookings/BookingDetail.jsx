@@ -1,7 +1,9 @@
+import { HiArrowUpOnSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useCheckOut } from "../check-in-out/useCheckOut";
 import { useBooking } from "./useBooking";
 
 import Button from "../../ui/Button";
@@ -21,6 +23,7 @@ const HeadingGroup = styled.div`
 
 export default function BookingDetail() {
   const { isLoading, booking } = useBooking();
+  const { isCheckingOut, checkOut } = useCheckOut();
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
@@ -52,6 +55,17 @@ export default function BookingDetail() {
             Check in
           </Button>
         )}
+
+        {status === "checked-in" && (
+          <Button
+            icon={<HiArrowUpOnSquare />}
+            onClick={() => checkOut(bookingId)}
+            disabled={isCheckingOut}
+          >
+            Check out
+          </Button>
+        )}
+
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
