@@ -17,7 +17,7 @@ const StyledToggle = styled.button`
   padding: 0.4rem;
   border-radius: var(--border-radius-sm);
   transform: translateX(0.8rem);
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: var(--color-grey-100);
@@ -34,36 +34,35 @@ const StyledList = styled.ul`
   position: absolute;
   top: 4rem;
   right: 0;
-  z-index: 1000;
-  width: max-content;
+  z-index: 10;
+  width: 17.5rem;
 
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
   border-radius: var(--border-radius-md);
+  padding-block: 0.8rem;
 `;
 
 const StyledButton = styled.button`
   width: 100%;
-  text-align: left;
   background: none;
   border: none;
   padding: 1.2rem 2.4rem;
   font-size: 1.4rem;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 
   display: flex;
   align-items: center;
   gap: 1.6rem;
 
   &:hover {
-    background-color: var(--color-grey-50);
+    background-color: var(--color-grey-200);
   }
 
   & svg {
     width: 1.6rem;
     height: 1.6rem;
-    color: var(--color-grey-400);
-    transition: all 0.3s;
+    color: var(--color-grey-500);
   }
 `;
 
@@ -85,14 +84,19 @@ export default function Menus({ children }) {
 function Toggle({ id }) {
   const { openId, close, open } = useContext(MenusContext);
 
+  const isClose = openId === "" || openId !== id;
+
   function handleClick(e) {
     e.stopPropagation();
 
-    openId === "" || openId !== id ? open(id) : close();
+    isClose ? open(id) : close();
   }
 
   return (
-    <StyledToggle onClick={handleClick}>
+    <StyledToggle
+      title={isClose ? "Open Menu" : "Close Menu"}
+      onClick={handleClick}
+    >
       <HiEllipsisVertical />
     </StyledToggle>
   );
@@ -117,7 +121,7 @@ function Button({ children, onClick, icon }) {
   }
 
   return (
-    <StyledButton onClick={handleClick}>
+    <StyledButton title={children} onClick={handleClick}>
       {icon} <span>{children}</span>
     </StyledButton>
   );

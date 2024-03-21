@@ -43,8 +43,8 @@ const GlobalStyles = createGlobalStyle`
   --backdrop-color: rgba(255, 255, 255, 0.1);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 32px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 24px 32px rgba(0, 0, 0, 0.12);
 
   --border-radius-tiny: 3px;
   --border-radius-sm: 5px;
@@ -62,9 +62,13 @@ const GlobalStyles = createGlobalStyle`
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-
+  
   /* Creating animations for dark mode */
-  transition: background-color 0.3s, border 0.3s;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+*:disabled {
+  cursor: not-allowed;
 }
 
 html {
@@ -72,14 +76,21 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
   color: var(--color-grey-700);
+  font: 1.6rem/1.5 "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
 
-  transition: color 0.3s, background-color 0.3s;
-  min-height: 100vh;
-  min-height: 100svh;
-  line-height: 1.5;
-  font-size: 1.6rem;
+img,
+picture {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img {
+  /* For dark mode */
+  filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
 
 input,
@@ -94,10 +105,6 @@ button {
   cursor: pointer;
 }
 
-*:disabled {
-  cursor: not-allowed;
-}
-
 select:disabled,
 input:disabled,
 textarea:disabled {
@@ -105,26 +112,26 @@ textarea:disabled {
   color: var(--color-grey-500);
 }
 
-input:focus,
-button:focus,
-textarea:focus,
-select:focus {
+input:focus-visible,
+button:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  /* Draw the focus when :focus-visible is supported */
   outline: 2px solid var(--color-brand-600);
   outline-offset: -1px;
+
+  @supports not selector(:focus-visible) {
+    &:focus {
+      /* Fallback for browsers without :focus-visible support */
+      outline: 2px solid var(--color-brand-600);
+      outline-offset: -1px;
+    }
+  }
 }
 
 /* Parent selector, finally 😃 */
 button:has(svg) {
   line-height: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-ul {
-  list-style: none;
 }
 
 p,
@@ -138,11 +145,24 @@ h6 {
   hyphens: auto;
 }
 
-img {
-  max-width: 100%;
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-  /* For dark mode */
-  filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
+@supports selector(:focus-visible) {
+  a:focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: -1px;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+#root {
+  isolation: isolate;
 }
 
 /*
@@ -178,8 +198,8 @@ FOR DARK MODE
 --backdrop-color: rgba(0, 0, 0, 0.3);
 
 --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
---shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
---shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
+--shadow-md: 0 6px 24px rgba(0, 0, 0, 0.3);
+--shadow-lg: 0 24px 32px rgba(0, 0, 0, 0.4);
 
 --image-grayscale: 10%;
 --image-opacity: 90%;

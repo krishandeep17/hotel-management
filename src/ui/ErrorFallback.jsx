@@ -1,13 +1,17 @@
 import styled from "styled-components";
 
 const StyledErrorFallback = styled.main`
-  height: 100vh;
-  height: 100svh;
   background-color: var(--color-grey-50);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4.8rem;
+  min-height: 100svh;
+
+  @supports not (min-height: 100svh) {
+    /* Fallback for browsers without svh(small viewport height) support */
+    min-height: 100vh;
+  }
 `;
 
 const Box = styled.div`

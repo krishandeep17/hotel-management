@@ -1,6 +1,6 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { PAGE_SIZE } from "../utils/constants.js";
 
@@ -26,9 +26,7 @@ const Buttons = styled.div`
 `;
 
 const PaginationButton = styled.button`
-  background-color: ${(props) =>
-    props.active ? " var(--color-brand-600)" : "var(--color-grey-50)"};
-  color: ${(props) => (props.active ? " var(--color-brand-50)" : "inherit")};
+  background-color: var(--color-grey-50);
   border: none;
   border-radius: var(--border-radius-sm);
   font-weight: 500;
@@ -39,7 +37,7 @@ const PaginationButton = styled.button`
   justify-content: center;
   gap: 0.4rem;
   padding: 0.6rem 1.2rem;
-  transition: all 0.3s;
+  transition: background-color 0.3s;
 
   &:has(span:last-child) {
     padding-left: 0.4rem;
@@ -52,6 +50,7 @@ const PaginationButton = styled.button`
   & svg {
     height: 1.8rem;
     width: 1.8rem;
+    transition: none;
   }
 
   &:hover:not(:disabled) {
@@ -95,10 +94,15 @@ export default function Pagination({ count }) {
         of <span>{count}</span> results
       </P>
       <Buttons>
-        <PaginationButton disabled={currentPage === 1} onClick={prevPage}>
+        <PaginationButton
+          title="Previous"
+          disabled={currentPage === 1}
+          onClick={prevPage}
+        >
           <HiChevronLeft /> <span>Previous</span>
         </PaginationButton>
         <PaginationButton
+          title="Next"
           disabled={currentPage === pageCount}
           onClick={nextPage}
         >
