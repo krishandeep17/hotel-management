@@ -7,14 +7,14 @@ export function useBooking() {
   const { bookingId } = useParams();
 
   const {
-    isLoading,
-    data: booking,
+    isPending,
     error,
+    data: booking,
   } = useQuery({
     queryKey: ["booking", bookingId],
     queryFn: () => getBooking(bookingId),
     retry: false,
   });
 
-  return { isLoading, booking, error };
+  return { isPending, error, booking };
 }

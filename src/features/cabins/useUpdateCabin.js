@@ -6,7 +6,7 @@ import { createUpdateCabin } from "../../services/apiCabins";
 export function useUpdateCabin() {
   const queryClient = useQueryClient();
 
-  const { mutate: updateCabin, isLoading: isUpdating } = useMutation({
+  const { isPending: isUpdating, mutate: updateCabin } = useMutation({
     mutationFn: ({ updateCabinData, id }) =>
       createUpdateCabin(updateCabinData, id),
     onSuccess: () => {
@@ -18,5 +18,5 @@ export function useUpdateCabin() {
     onError: (err) => toast.error(err.message),
   });
 
-  return { updateCabin, isUpdating };
+  return { isUpdating, updateCabin };
 }

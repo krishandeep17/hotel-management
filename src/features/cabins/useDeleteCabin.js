@@ -6,7 +6,7 @@ import { deleteCabin as deleteCabinApi } from "../../services/apiCabins";
 export function useDeleteCabin() {
   const queryClient = useQueryClient();
 
-  const { mutate: deleteCabin, isLoading: isDeleting } = useMutation({
+  const { isPending: isDeleting, mutate: deleteCabin } = useMutation({
     mutationFn: (cabinId) => deleteCabinApi(cabinId),
     onSuccess: () => {
       toast.success("Cabin successfully deleted");
@@ -18,5 +18,5 @@ export function useDeleteCabin() {
     onError: (err) => toast.error(err.message),
   });
 
-  return { deleteCabin, isDeleting };
+  return { isDeleting, deleteCabin };
 }
