@@ -25,9 +25,9 @@ export function useBookings() {
 
   // QUERY
   const {
-    isLoading,
-    data: { data: bookings, count } = {},
+    isPending,
     error,
+    data: { data: bookings, count } = {},
   } = useQuery({
     queryKey: ["bookings", filter, sortBy, page],
     queryFn: () => getBookings({ filter, sortBy, page }),
@@ -50,5 +50,5 @@ export function useBookings() {
     });
   }
 
-  return { isLoading, bookings, error, count };
+  return { isPending, error, bookings, count };
 }

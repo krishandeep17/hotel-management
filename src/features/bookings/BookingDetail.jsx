@@ -25,13 +25,13 @@ const HeadingGroup = styled.div`
 `;
 
 export default function BookingDetail() {
-  const { isLoading, booking } = useBooking();
+  const { isPending, booking } = useBooking();
   const { isCheckingOut, checkOut } = useCheckOut();
   const { isDeleting, deleteBooking } = useDeleteBooking();
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   const { id: bookingId, status } = booking;
 

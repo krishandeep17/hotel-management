@@ -7,9 +7,9 @@ import BookingRow from "./BookingRow";
 import { useBookings } from "./useBookings";
 
 export default function BookingTable() {
-  const { isLoading, bookings, count } = useBookings();
+  const { isPending, bookings, count } = useBookings();
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   if (!bookings.length) return <Empty resourceName="booking" />;
 

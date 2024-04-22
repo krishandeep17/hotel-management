@@ -8,7 +8,7 @@ import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
 
 export default function CabinTable() {
-  const { cabins, isLoading } = useCabins();
+  const { isPending, cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
   // 1) FILTER
@@ -44,7 +44,7 @@ export default function CabinTable() {
     );
   }
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   if (!sortedCabin.length) return <Empty resourceName="cabin" />;
 

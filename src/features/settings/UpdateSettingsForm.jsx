@@ -6,10 +6,10 @@ import { useSettings } from "./useSettings";
 import { useUpdateSetting } from "./useUpdateSetting";
 
 export default function UpdateSettingsForm() {
-  const { isLoading, settings } = useSettings();
+  const { isPending, settings } = useSettings();
   const { updateSetting, isUpdating } = useUpdateSetting();
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   function handleUpdate(e, field) {
     const { value } = e.target;
