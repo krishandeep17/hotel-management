@@ -3,11 +3,10 @@ import { Controller, useForm } from "react-hook-form";
 
 import { createCabinSchema, updateCabinSchema } from "../../models/cabinModel";
 import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
-import Textarea from "../../ui/Textarea";
+import ValidatedInputField from "../../ui/ValidatedInputField";
+import ValidatedInputFile from "../../ui/ValidatedInputFile";
 import { useCreateCabin } from "./useCreateCabin";
 import { useUpdateCabin } from "./useUpdateCabin";
 
@@ -61,86 +60,84 @@ export default function CreateCabinForm({
       onSubmit={handleSubmit(onSubmit)}
       type={handleCloseModal ? "modal" : "regular"}
     >
-      <FormRow label="Cabin name" error={errors?.name?.message}>
-        <Input
-          type="text"
-          id="name"
-          disabled={isWorking}
-          {...register("name")}
-        />
-      </FormRow>
+      <ValidatedInputField
+        type="text"
+        name="name"
+        label="Cabin name"
+        disabled={isWorking}
+        register={register}
+        error={errors?.name?.message}
+      />
 
-      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
-        <Input
-          type="number"
-          id="maxCapacity"
-          disabled={isWorking}
-          {...register("maxCapacity", { valueAsNumber: true })}
-        />
-      </FormRow>
+      <ValidatedInputField
+        type="number"
+        name="maxCapacity"
+        label="Max Capacity"
+        disabled={isWorking}
+        register={register}
+        error={errors?.maxCapacity?.message}
+      />
 
-      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
-        <Input
-          type="number"
-          id="regularPrice"
-          disabled={isWorking}
-          {...register("regularPrice", { valueAsNumber: true })}
-        />
-      </FormRow>
+      <ValidatedInputField
+        type="number"
+        name="regularPrice"
+        label="Regular price"
+        disabled={isWorking}
+        register={register}
+        error={errors?.regularPrice?.message}
+      />
 
-      <FormRow label="Discount" error={errors?.discount?.message}>
-        <Input
-          type="number"
-          id="discount"
-          disabled={isWorking}
-          {...register("discount", { valueAsNumber: true })}
-        />
-      </FormRow>
+      <ValidatedInputField
+        type="number"
+        name="discount"
+        label="Discount"
+        disabled={isWorking}
+        register={register}
+        error={errors?.discount?.message}
+      />
 
-      <FormRow
+      <ValidatedInputField
+        type="textarea"
+        name="description"
         label="Description for website"
+        disabled={isWorking}
+        register={register}
         error={errors?.description?.message}
-      >
-        <Textarea
-          id="description"
-          disabled={isWorking}
-          {...register("description")}
-        />
-      </FormRow>
+      />
 
-      <FormRow label="Cabin photo" error={errors?.image?.message}>
-        <Controller
-          disabled={isWorking}
-          name="image"
-          control={control}
-          render={({ field: { disabled, name, onBlur, onChange, ref } }) => (
-            <FileInput
-              type="file"
-              accept="image/*"
-              id="image"
-              disabled={disabled}
-              name={name}
-              onBlur={onBlur}
-              onChange={(e) => onChange(e.target.files?.[0])}
-              ref={ref}
-            />
-          )}
-        />
-      </FormRow>
+      <Controller
+        disabled={isWorking}
+        name="image"
+        control={control}
+        render={({ field }) => (
+          <ValidatedInputFile
+            label="Cabin photo"
+            error={errors?.image?.message}
+            field={field}
+            accept="image/*"
+          />
+        )}
+      />
 
       <FormRow>
-        {/* type is an HTML attribute! */}
         <Button
+          type="reset"
           disabled={isWorking}
           variation="secondary"
-          type="reset"
           onClick={() => handleCloseModal?.()}
         >
           Cancel
         </Button>
-        <Button disabled={isWorking}>
-          {isUpdateSession ? "Update cabin" : "Create new cabin"}
-        </Button>
+
+        {isUpdateSession ? (
+          <Button type="submit" disabled={isWorking}>
+            {isWorking ? "Updating..." : "Update cabin"}
+          </Button>
+        ) : (
+          <Button type="submit" disabled={isWorking}>
+            {isWorking ? "Creating..." : "Create new cabin"}
+          </Button>
+        )}
       </FormRow>
     </Form>
   );
