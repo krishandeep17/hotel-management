@@ -1,5 +1,7 @@
-import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
+import { createCabinSchema, updateCabinSchema } from "../../models/cabinModel";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
@@ -23,17 +25,20 @@ export default function CreateCabinForm({
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { errors },
-    getValues,
-  } = useForm({ defaultValues: isUpdateSession ? updateValues : {} });
+  } = useForm({
+    defaultValues: isUpdateSession ? updateValues : {},
+    resolver: zodResolver(
+      isUpdateSession ? updateCabinSchema : createCabinSchema
+    ),
+  });
 
   function onSubmit(data) {
-    const image = typeof data.image === "string" ? data.image : data.image[0];
-
     if (isUpdateSession) {
       updateCabin(
-        { updateCabinData: { ...data, image }, id: updateId },
+        { updateCabinData: data, id: updateId },
         {
           onSuccess: () => {
             reset();
@@ -42,15 +47,12 @@ export default function CreateCabinForm({
         }
       );
     } else {
-      createCabin(
-        { ...data, image },
-        {
-          onSuccess: () => {
-            reset();
-            handleCloseModal?.();
-          },
-        }
-      );
+      createCabin(data, {
+        onSuccess: () => {
+          reset();
+          handleCloseModal?.();
+        },
+      });
     }
   }
 
@@ -64,17 +66,7 @@ export default function CreateCabinForm({
           type="text"
           id="name"
           disabled={isWorking}
-          {...register("name", {
-            required: "This field is required",
-            minLength: {
-              value: 3,
-              message: "Cabin name should be longer than 2 characters.",
-            },
-            maxLength: {
-              value: 30,
-              message: "Cabin name should be no longer than 30 characters",
-            },
-          })}
+          {...register("name")}
         />
       </FormRow>
 
@@ -83,13 +75,7 @@ export default function CreateCabinForm({
           type="number"
           id="maxCapacity"
           disabled={isWorking}
-          {...register("maxCapacity", {
-            required: "This field is required",
-            min: {
-              value: 1,
-              message: "Maximum capacity should be at least 1",
-            },
-          })}
+          {...register("maxCapacity", { valueAsNumber: true })}
         />
       </FormRow>
 
@@ -98,13 +84,7 @@ export default function CreateCabinForm({
           type="number"
           id="regularPrice"
           disabled={isWorking}
-          {...register("regularPrice", {
-            required: "This field is required",
-            min: {
-              value: 1,
-              message: "Regular price should be at least 1",
-            },
-          })}
+          {...register("regularPrice", { valueAsNumber: true })}
         />
       </FormRow>
 
@@ -113,16 +93,7 @@ export default function CreateCabinForm({
           type="number"
           id="discount"
           disabled={isWorking}
-          {...register("discount", {
-            required: "This field is required",
-            min: {
-              value: 0,
-              message: "Discount should be at least 0",
-            },
-            validate: (value) =>
-              +value < +getValues().regularPrice ||
-              "Discount should be less than regular price",
-          })}
+          {...register("discount", { valueAsNumber: true })}
         />
       </FormRow>
 
@@ -131,31 +102,29 @@ export default function CreateCabinForm({
         error={errors?.description?.message}
       >
         <Textarea
-          type="number"
           id="description"
           disabled={isWorking}
-          {...register("description", {
-            required: "This field is required",
-            minLength: {
-              value: 3,
-              message: "Description should be longer than 2 characters",
-            },
-            maxLength: {
-              value: 1000,
-              message: "Description should be no longer than 1000 characters",
-            },
-          })}
+          {...register("description")}
         />
       </FormRow>
 
       <FormRow label="Cabin photo" error={errors?.image?.message}>
-        <FileInput
-          id="image"
+        <Controller
           disabled={isWorking}
-          accept="image/*"
-          {...register("image", {
-            required: isUpdateSession ? false : "This field is required",
-          })}
+          name="image"
+          control={control}
+          render={({ field: { disabled, name, onBlur, onChange, ref } }) => (
+            <FileInput
+              type="file"
+              accept="image/*"
+              id="image"
+              disabled={disabled}
+              name={name}
+              onBlur={onBlur}
+              onChange={(e) => onChange(e.target.files?.[0])}
+              ref={ref}
+            />
+          )}
         />
       </FormRow>
 
