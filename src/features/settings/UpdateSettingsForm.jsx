@@ -1,4 +1,12 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { settingSchema } from "../../models/settingModel";
+import Button from "../../ui/Button";
+import Form from "../../ui/Form";
+import FormRow from "../../ui/FormRow";
 import Spinner from "../../ui/Spinner";
+import ValidatedInputField from "../../ui/ValidatedInputField";
 import { useSettings } from "./useSettings";
 import { useUpdateSetting } from "./useUpdateSetting";
 
@@ -6,56 +14,76 @@ export default function UpdateSettingsForm() {
   const { isPending, settings } = useSettings();
   const { updateSetting, isUpdating } = useUpdateSetting();
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(settingSchema),
+  });
+
   if (isPending) return <Spinner />;
 
-  function handleUpdate(e, field) {
-    const { value } = e.target;
-
-    if (!value) return;
-
-    updateSetting({ [field]: value });
+  function onSubmit(data) {
+    updateSetting(data);
   }
 
   return (
-    <div>UpdateSettingsForm</div>
-    // Temporary Comment
-    // <Form>
-    //   <FormRow label="Minimum nights/booking">
-    //     <Input
-    //       type="number"
-    //       id="min-nights"
-    //       defaultValue={settings.minBookingLength}
-    //       disabled={isUpdating}
-    //       onBlur={(e) => handleUpdate(e, "minBookingLength")}
-    //     />
-    //   </FormRow>
-    //   <FormRow label="Maximum nights/booking">
-    //     <Input
-    //       type="number"
-    //       id="max-nights"
-    //       defaultValue={settings.maxBookingLength}
-    //       disabled={isUpdating}
-    //       onBlur={(e) => handleUpdate(e, "maxBookingLength")}
-    //     />
-    //   </FormRow>
-    //   <FormRow label="Maximum guests/booking">
-    //     <Input
-    //       type="number"
-    //       id="max-guests"
-    //       defaultValue={settings.maxGuestPerBooking}
-    //       disabled={isUpdating}
-    //       onBlur={(e) => handleUpdate(e, "maxGuestPerBooking")}
-    //     />
-    //   </FormRow>
-    //   <FormRow label="Breakfast price">
-    //     <Input
-    //       type="number"
-    //       id="breakfast-price"
-    //       defaultValue={settings.breakfastPrice}
-    //       disabled={isUpdating}
-    //       onBlur={(e) => handleUpdate(e, "breakfastPrice")}
-    //     />
-    //   </FormRow>
-    // </Form>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <ValidatedInputField
+        type="number"
+        name="minBookingLength"
+        label="Minimum nights/booking"
+        disabled={isUpdating}
+        register={register}
+        error={errors?.minBookingLength?.message}
+        defaultValue={settings?.minBookingLength}
+      />
+
+      <ValidatedInputField
+        type="number"
+        name="maxBookingLength"
+        label="Maximum nights/booking"
+        disabled={isUpdating}
+        register={register}
+        error={errors?.maxBookingLength?.message}
+        defaultValue={settings?.maxBookingLength}
+      />
+
+      <ValidatedInputField
+        type="number"
+        name="maxGuestPerBooking"
+        label="Maximum guests/booking"
+        disabled={isUpdating}
+        register={register}
+        error={errors?.maxGuestPerBooking?.message}
+        defaultValue={settings?.maxGuestPerBooking}
+      />
+
+      <ValidatedInputField
+        type="number"
+        name="breakfastPrice"
+        label="Breakfast price"
+        disabled={isUpdating}
+        register={register}
+        error={errors?.breakfastPrice?.message}
+        defaultValue={settings?.breakfastPrice}
+      />
+
+      <FormRow>
+        <Button
+          disabled={isUpdating}
+          variation="secondary"
+          onClick={() => reset()}
+        >
+          Restore Defaults
+        </Button>
+
+        <Button type="submit" disabled={isUpdating}>
+          Update settings
+        </Button>
+      </FormRow>
+    </Form>
   );
 }
