@@ -7,7 +7,7 @@ import BookingRow from "./BookingRow";
 import { useBookings } from "./useBookings";
 
 export default function BookingTable() {
-  const { isPending, bookings, count } = useBookings();
+  const { isPending, bookings, totalBookings } = useBookings();
 
   if (isPending) return <Spinner />;
 
@@ -33,7 +33,7 @@ export default function BookingTable() {
         />
 
         <Table.Footer>
-          <Pagination count={count} />
+          <Pagination totalCount={totalBookings} />
         </Table.Footer>
       </Table>
     </Menus>

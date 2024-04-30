@@ -59,53 +59,50 @@ const PaginationButton = styled.button`
   }
 `;
 
-export default function Pagination({ count }) {
+export default function Pagination({ totalCount }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentPage = !searchParams.get("page")
     ? 1
     : Number(searchParams.get("page"));
 
-  const pageCount = Math.ceil(count / PAGE_SIZE);
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
 
   function prevPage() {
-    const prev = currentPage === 1 ? currentPage : currentPage - 1;
+    const prev = isFirstPage ? currentPage : currentPage - 1;
 
     searchParams.set("page", prev);
     setSearchParams(searchParams);
   }
 
   function nextPage() {
-    const next = currentPage === pageCount ? currentPage : currentPage + 1;
+    const next = isLastPage ? currentPage : currentPage + 1;
 
     searchParams.set("page", next);
     setSearchParams(searchParams);
   }
 
-  if (pageCount <= 1) return null;
+  if (totalPages <= 1) return null;
 
   return (
     <StyledPagination>
       <P>
         Showing <span>{(currentPage - 1) * PAGE_SIZE + 1}</span> to{" "}
-        <span>
-          {currentPage === pageCount ? count : currentPage * PAGE_SIZE}
-        </span>{" "}
-        of <span>{count}</span> results
+        <span>{isLastPage ? totalCount : currentPage * PAGE_SIZE}</span> of{" "}
+        <span>{totalCount}</span> results
       </P>
       <Buttons>
         <PaginationButton
           title="Previous"
-          disabled={currentPage === 1}
+          disabled={isFirstPage}
           onClick={prevPage}
         >
           <HiChevronLeft /> <span>Previous</span>
         </PaginationButton>
-        <PaginationButton
-          title="Next"
-          disabled={currentPage === pageCount}
-          onClick={nextPage}
-        >
+        <PaginationButton title="Next" disabled={isLastPage} onClick={nextPage}>
           <span>Next</span> <HiChevronRight />
         </PaginationButton>
       </Buttons>

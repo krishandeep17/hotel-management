@@ -8,35 +8,35 @@ export function useBookings() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
-  // 1) FILTER
+  // FILTER
   const filterValue = searchParams.get("status");
   const filter =
     !filterValue || filterValue === "all"
       ? null
       : { field: "status", value: filterValue };
 
-  // 2) SORT
+  // SORT
   const sortByValue = searchParams.get("sortBy") || "startDate-desc";
   const [field, direction] = sortByValue.split("-");
   const sortBy = { field, direction };
 
-  // 3) PAGINATION
+  // PAGINATION
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
   // QUERY
   const {
     isPending,
     error,
-    data: { data: bookings, count } = {},
+    data: { data: bookings, count: totalBookings } = {},
   } = useQuery({
     queryKey: ["bookings", filter, sortBy, page],
     queryFn: () => getBookings({ filter, sortBy, page }),
   });
 
   // PRE-FETCHING
-  const pageCount = Math.ceil(count / PAGE_SIZE);
+  const totalPages = Math.ceil(totalBookings / PAGE_SIZE);
 
-  if (page < pageCount) {
+  if (page < totalPages) {
     queryClient.prefetchQuery({
       queryKey: ["bookings", filter, sortBy, page + 1],
       queryFn: () => getBookings({ filter, sortBy, page: page + 1 }),
@@ -50,5 +50,5 @@ export function useBookings() {
     });
   }
 
-  return { isPending, error, bookings, count };
+  return { isPending, error, bookings, totalBookings };
 }
