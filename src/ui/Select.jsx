@@ -15,9 +15,9 @@ const StyledSelect = styled.select`
   cursor: pointer;
 `;
 
-export default function Select({ value, options, handleChange, ...props }) {
+export default function Select({ value, options, onChange, ...props }) {
   return (
-    <StyledSelect value={value} onChange={handleChange} {...props}>
+    <StyledSelect value={value} onChange={onChange} {...props}>
       {options.map((option) => (
         <option title={option.label} key={option.value} value={option.value}>
           {option.label}
