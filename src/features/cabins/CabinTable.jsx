@@ -11,19 +11,19 @@ export default function CabinTable() {
   const { isPending, cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
+  if (isPending) return <Spinner />;
+
   // 1) FILTER
   const filterValue = searchParams.get("discount") || "all";
 
   let filteredCabins;
 
-  if (filterValue === "all") {
-    filteredCabins = cabins;
-  }
+  if (filterValue === "all") filteredCabins = cabins;
   if (filterValue === "no-discount") {
-    filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
+    filteredCabins = cabins?.filter((cabin) => cabin.discount === 0);
   }
   if (filterValue === "with-discount") {
-    filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
+    filteredCabins = cabins?.filter((cabin) => cabin.discount > 0);
   }
 
   // 2) SORT
@@ -43,8 +43,6 @@ export default function CabinTable() {
       (a, b) => (a[field] - b[field]) * modifier
     );
   }
-
-  if (isPending) return <Spinner />;
 
   if (!sortedCabin.length) return <Empty resourceName="cabin" />;
 
