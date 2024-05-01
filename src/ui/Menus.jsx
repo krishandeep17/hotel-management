@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { HiEllipsisVertical } from "react-icons/hi2";
+import { HiOutlineEllipsisVertical } from "react-icons/hi2";
 import styled from "styled-components";
 
 import { useOutsideClick } from "../hooks/useOutsideClick";
@@ -26,7 +26,6 @@ const StyledToggle = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
-    color: var(--color-grey-700);
   }
 `;
 
@@ -62,7 +61,6 @@ const StyledButton = styled.button`
   & svg {
     width: 1.6rem;
     height: 1.6rem;
-    color: var(--color-grey-500);
   }
 `;
 
@@ -97,7 +95,7 @@ function Toggle({ id }) {
       title={isClose ? "Open Menu" : "Close Menu"}
       onClick={handleClick}
     >
-      <HiEllipsisVertical />
+      <HiOutlineEllipsisVertical />
     </StyledToggle>
   );
 }

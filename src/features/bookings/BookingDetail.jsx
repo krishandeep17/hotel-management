@@ -1,4 +1,4 @@
-import { HiArrowUpOnSquare } from "react-icons/hi2";
+import { HiOutlineChevronLeft } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -13,10 +13,15 @@ import ButtonText from "../../ui/ButtonText";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Heading from "../../ui/Heading";
 import Modal from "../../ui/Modal";
-import Row from "../../ui/Row";
 import Spinner from "../../ui/Spinner";
 import Tag from "../../ui/Tag";
 import BookingDataBox from "./BookingDataBox";
+
+const Header = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+`;
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -43,13 +48,18 @@ export default function BookingDetail() {
 
   return (
     <>
-      <Row type="horizontal">
+      <Header>
+        <div>
+          <ButtonText title="Back" onClick={moveBack}>
+            <HiOutlineChevronLeft />
+            <span>Back</span>
+          </ButtonText>
+        </div>
         <HeadingGroup>
           <Heading as="h1">Booking #{bookingId}</Heading>
           <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-      </Row>
+      </Header>
 
       <BookingDataBox booking={booking} />
 
@@ -61,11 +71,7 @@ export default function BookingDetail() {
         )}
 
         {status === "checked-in" && (
-          <Button
-            icon={<HiArrowUpOnSquare />}
-            onClick={() => checkOut(bookingId)}
-            disabled={isCheckingOut}
-          >
+          <Button onClick={() => checkOut(bookingId)} disabled={isCheckingOut}>
             Check out
           </Button>
         )}

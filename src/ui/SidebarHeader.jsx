@@ -1,4 +1,4 @@
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi2";
 import styled from "styled-components";
 
 import lightLogo from "../assets/logo-light.png";
@@ -45,7 +45,7 @@ export default function SidebarHeader({ isCollapsed, setIsCollapsed }) {
         title={isCollapsed ? "Expand Menu" : "Collapse Menu"}
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
-        {isCollapsed ? <HiChevronRight /> : <HiChevronLeft />}
+        {isCollapsed ? <HiOutlineChevronRight /> : <HiOutlineChevronLeft />}
       </StyledButton>
 
       <picture>

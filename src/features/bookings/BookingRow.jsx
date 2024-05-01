@@ -1,9 +1,9 @@
 import { format, isToday } from "date-fns";
 import {
-  HiArrowDownOnSquare,
-  HiArrowUpOnSquare,
-  HiEye,
-  HiTrash,
+  HiOutlineArrowDownOnSquare,
+  HiOutlineArrowUpOnSquare,
+  HiOutlineEye,
+  HiOutlineTrash,
 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -101,7 +101,7 @@ export default function BookingRow({ booking }) {
           <Menus.List id={bookingId}>
             <li>
               <Menus.Button
-                icon={<HiEye />}
+                icon={<HiOutlineEye />}
                 onClick={() => navigate(`/bookings/${bookingId}`)}
               >
                 See details
@@ -111,7 +111,7 @@ export default function BookingRow({ booking }) {
             {status === "unconfirmed" && (
               <li>
                 <Menus.Button
-                  icon={<HiArrowDownOnSquare />}
+                  icon={<HiOutlineArrowDownOnSquare />}
                   onClick={() => navigate(`/check-in/${bookingId}`)}
                 >
                   Check in
@@ -122,7 +122,7 @@ export default function BookingRow({ booking }) {
             {status === "checked-in" && (
               <li>
                 <Menus.Button
-                  icon={<HiArrowUpOnSquare />}
+                  icon={<HiOutlineArrowUpOnSquare />}
                   onClick={() => checkOut(bookingId)}
                   disabled={isCheckingOut}
                 >
@@ -133,7 +133,7 @@ export default function BookingRow({ booking }) {
 
             <li>
               <Modal.Open opens="confirm-delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                <Menus.Button icon={<HiOutlineTrash />}>Delete</Menus.Button>
               </Modal.Open>
             </li>
           </Menus.List>

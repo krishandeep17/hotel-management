@@ -1,6 +1,6 @@
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { PAGE_SIZE } from "../utils/constants.js";
 
@@ -100,10 +100,10 @@ export default function Pagination({ totalCount }) {
           disabled={isFirstPage}
           onClick={prevPage}
         >
-          <HiChevronLeft /> <span>Previous</span>
+          <HiOutlineChevronLeft /> <span>Previous</span>
         </PaginationButton>
         <PaginationButton title="Next" disabled={isLastPage} onClick={nextPage}>
-          <span>Next</span> <HiChevronRight />
+          <span>Next</span> <HiOutlineChevronRight />
         </PaginationButton>
       </Buttons>
     </StyledPagination>

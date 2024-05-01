@@ -1,4 +1,8 @@
-import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import {
+  HiOutlinePencil,
+  HiOutlineSquare2Stack,
+  HiOutlineTrash,
+} from "react-icons/hi2";
 import styled from "styled-components";
 
 import ConfirmDelete from "../../ui/ConfirmDelete";
@@ -84,7 +88,7 @@ export default function CabinRow({ cabin }) {
               <Menus.Button
                 onClick={handleDuplicate}
                 disabled={isCreating}
-                icon={<HiSquare2Stack />}
+                icon={<HiOutlineSquare2Stack />}
               >
                 Duplicate
               </Menus.Button>
@@ -92,13 +96,13 @@ export default function CabinRow({ cabin }) {
 
             <li>
               <Modal.Open opens="edit-form">
-                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                <Menus.Button icon={<HiOutlinePencil />}>Edit</Menus.Button>
               </Modal.Open>
             </li>
 
             <li>
               <Modal.Open opens="confirm-delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                <Menus.Button icon={<HiOutlineTrash />}>Delete</Menus.Button>
               </Modal.Open>
             </li>
           </Menus.List>
