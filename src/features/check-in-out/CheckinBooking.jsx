@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { HiOutlineChevronLeft } from "react-icons/hi2";
 import styled from "styled-components";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
@@ -11,10 +12,15 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import ButtonText from "../../ui/ButtonText";
 import Checkbox from "../../ui/Checkbox";
 import Heading from "../../ui/Heading";
-import Row from "../../ui/Row";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency } from "../../utils/helpers";
 import BookingDataBox from "../bookings/BookingDataBox";
+
+const Header = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+`;
 
 const Box = styled.div`
   /* Box */
@@ -34,7 +40,7 @@ export default function CheckInBooking() {
 
   useEffect(() => {
     setConfirmPaid(booking?.isPaid ?? false);
-  }, [booking]);
+  }, [booking?.isPaid]);
 
   if (isPending || isLoadingSettings) return <Spinner />;
 
@@ -48,7 +54,7 @@ export default function CheckInBooking() {
     numNights,
   } = booking;
 
-  const breakfastPrice = settings.breakfastPrice * numGuests * numNights;
+  const breakfastPrice = settings?.breakfastPrice * numGuests * numNights;
 
   function handleCheckIn() {
     if (!confirmPaid) return;
@@ -69,10 +75,15 @@ export default function CheckInBooking() {
 
   return (
     <>
-      <Row type="horizontal">
+      <Header>
+        <div>
+          <ButtonText title="Back" onClick={moveBack}>
+            <HiOutlineChevronLeft />
+            <span>Back</span>
+          </ButtonText>
+        </div>
         <Heading as="h1">Check in booking #{bookingId}</Heading>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-      </Row>
+      </Header>
 
       <BookingDataBox booking={booking} />
 
