@@ -49,6 +49,11 @@ const variations = {
     &:disabled {
       background-color: var(--color-grey-50);
     }
+
+    &:focus-visible {
+      outline-color: var(--color-grey-400);
+      outline-offset: 1.6px;
+    }
   `,
   danger: css`
     color: var(--color-red-100);
