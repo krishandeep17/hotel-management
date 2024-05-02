@@ -1,8 +1,6 @@
 import { useId } from "react";
 import styled from "styled-components";
 
-import FormRow from "./FormRow";
-
 const Label = styled.label`
   font-weight: 500;
 `;
@@ -48,7 +46,7 @@ export default function ValidatedInputFile({
   const { disabled, name, onBlur, onChange, ref } = field;
 
   return (
-    <FormRow>
+    <>
       {label && <Label htmlFor={`${id}-${name}`}>{label}</Label>}
 
       <FileInput
@@ -62,6 +60,6 @@ export default function ValidatedInputFile({
       />
 
       {error && <Error>{error}</Error>}
-    </FormRow>
+    </>
   );
 }

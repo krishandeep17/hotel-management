@@ -31,45 +31,53 @@ export default function UpdateSettingsForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <ValidatedInputField
-        type="number"
-        name="minBookingLength"
-        label="Minimum nights/booking"
-        disabled={isUpdating}
-        register={register}
-        error={errors?.minBookingLength?.message}
-        defaultValue={settings?.minBookingLength}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="number"
+          name="minBookingLength"
+          label="Minimum nights/booking"
+          disabled={isUpdating}
+          register={register}
+          error={errors?.minBookingLength?.message}
+          defaultValue={settings?.minBookingLength}
+        />
+      </FormRow>
 
-      <ValidatedInputField
-        type="number"
-        name="maxBookingLength"
-        label="Maximum nights/booking"
-        disabled={isUpdating}
-        register={register}
-        error={errors?.maxBookingLength?.message}
-        defaultValue={settings?.maxBookingLength}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="number"
+          name="maxBookingLength"
+          label="Maximum nights/booking"
+          disabled={isUpdating}
+          register={register}
+          error={errors?.maxBookingLength?.message}
+          defaultValue={settings?.maxBookingLength}
+        />
+      </FormRow>
 
-      <ValidatedInputField
-        type="number"
-        name="maxGuestPerBooking"
-        label="Maximum guests/booking"
-        disabled={isUpdating}
-        register={register}
-        error={errors?.maxGuestPerBooking?.message}
-        defaultValue={settings?.maxGuestPerBooking}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="number"
+          name="maxGuestPerBooking"
+          label="Maximum guests/booking"
+          disabled={isUpdating}
+          register={register}
+          error={errors?.maxGuestPerBooking?.message}
+          defaultValue={settings?.maxGuestPerBooking}
+        />
+      </FormRow>
 
-      <ValidatedInputField
-        type="number"
-        name="breakfastPrice"
-        label="Breakfast price"
-        disabled={isUpdating}
-        register={register}
-        error={errors?.breakfastPrice?.message}
-        defaultValue={settings?.breakfastPrice}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="number"
+          name="breakfastPrice"
+          label="Breakfast price"
+          disabled={isUpdating}
+          register={register}
+          error={errors?.breakfastPrice?.message}
+          defaultValue={settings?.breakfastPrice}
+        />
+      </FormRow>
 
       <FormRow>
         <Button type="submit" disabled={isUpdating}>

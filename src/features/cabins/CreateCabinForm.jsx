@@ -60,64 +60,76 @@ export default function CreateCabinForm({
       onSubmit={handleSubmit(onSubmit)}
       type={handleCloseModal ? "modal" : "regular"}
     >
-      <ValidatedInputField
-        type="text"
-        name="name"
-        label="Cabin name"
-        disabled={isWorking}
-        register={register}
-        error={errors?.name?.message}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="text"
+          name="name"
+          label="Cabin name"
+          disabled={isWorking}
+          register={register}
+          error={errors?.name?.message}
+        />
+      </FormRow>
 
-      <ValidatedInputField
-        type="number"
-        name="maxCapacity"
-        label="Max Capacity"
-        disabled={isWorking}
-        register={register}
-        error={errors?.maxCapacity?.message}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="number"
+          name="maxCapacity"
+          label="Max Capacity"
+          disabled={isWorking}
+          register={register}
+          error={errors?.maxCapacity?.message}
+        />
+      </FormRow>
 
-      <ValidatedInputField
-        type="number"
-        name="regularPrice"
-        label="Regular price"
-        disabled={isWorking}
-        register={register}
-        error={errors?.regularPrice?.message}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="number"
+          name="regularPrice"
+          label="Regular price"
+          disabled={isWorking}
+          register={register}
+          error={errors?.regularPrice?.message}
+        />
+      </FormRow>
 
-      <ValidatedInputField
-        type="number"
-        name="discount"
-        label="Discount"
-        disabled={isWorking}
-        register={register}
-        error={errors?.discount?.message}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="number"
+          name="discount"
+          label="Discount"
+          disabled={isWorking}
+          register={register}
+          error={errors?.discount?.message}
+        />
+      </FormRow>
 
-      <ValidatedInputField
-        type="textarea"
-        name="description"
-        label="Description for website"
-        disabled={isWorking}
-        register={register}
-        error={errors?.description?.message}
-      />
+      <FormRow>
+        <ValidatedInputField
+          type="textarea"
+          name="description"
+          label="Description for website"
+          disabled={isWorking}
+          register={register}
+          error={errors?.description?.message}
+        />
+      </FormRow>
 
-      <Controller
-        disabled={isWorking}
-        name="image"
-        control={control}
-        render={({ field }) => (
-          <ValidatedInputFile
-            label="Cabin photo"
-            error={errors?.image?.message}
-            field={field}
-            accept="image/*"
-          />
-        )}
-      />
+      <FormRow>
+        <Controller
+          disabled={isWorking}
+          name="image"
+          control={control}
+          render={({ field }) => (
+            <ValidatedInputFile
+              label="Cabin photo"
+              error={errors?.image?.message}
+              field={field}
+              accept="image/*"
+            />
+          )}
+        />
+      </FormRow>
 
       <FormRow>
         <Button

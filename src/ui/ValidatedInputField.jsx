@@ -1,8 +1,6 @@
 import { useId } from "react";
 import styled from "styled-components";
 
-import FormRow from "./FormRow";
-
 const Label = styled.label`
   font-weight: 500;
 `;
@@ -13,7 +11,6 @@ const Input = styled.input`
   background-color: var(--color-grey-0);
   padding: 0.8rem 1.2rem;
   box-shadow: var(-shadow-sm);
-  text-transform: capitalize;
 `;
 
 const Textarea = styled.textarea`
@@ -42,7 +39,7 @@ export default function ValidatedInputField({
   const id = useId();
 
   return (
-    <FormRow>
+    <>
       {label && <Label htmlFor={`${id}-${name}`}>{label}</Label>}
 
       {type !== "textarea" ? (
@@ -62,6 +59,6 @@ export default function ValidatedInputField({
       )}
 
       {error && <Error>{error}</Error>}
-    </FormRow>
+    </>
   );
 }
