@@ -1,39 +1,60 @@
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { loginSchema } from "../../models/authModel";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
-import Input from "../../ui/Input";
-import FormRowVertical from "../../ui/FormRowVertical";
+import FormRow from "../../ui/FormRow";
+import ValidatedInputField from "../../ui/ValidatedInputField";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
 
-  function handleSubmit() {}
+  function onSubmit(data) {
+    console.log(data);
+    reset();
+  }
+
+  function onError(error) {
+    console.log(error);
+  }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormRowVertical label="Email address">
-        <Input
+    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+      <FormRow vertical>
+        <ValidatedInputField
           type="email"
-          id="email"
-          // This makes this form better for password managers
-          autoComplete="username"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          autoComplete="email"
+          label="Email address"
+          register={register}
+          error={errors?.email?.message}
         />
-      </FormRowVertical>
-      <FormRowVertical label="Password">
-        <Input
+      </FormRow>
+
+      <FormRow vertical>
+        <ValidatedInputField
           type="password"
-          id="password"
+          name="password"
           autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          label="Password"
+          register={register}
+          error={errors?.password?.message}
         />
-      </FormRowVertical>
-      <FormRowVertical>
-        <Button size="large">Login</Button>
-      </FormRowVertical>
+      </FormRow>
+
+      <FormRow>
+        <Button type="submit" size="large">
+          Login
+        </Button>
+      </FormRow>
     </Form>
   );
 }
