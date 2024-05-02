@@ -1,7 +1,7 @@
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi2";
 import styled from "styled-components";
 
-import lightLogo from "../assets/logo-light.png";
+import Logo from "./Logo";
 
 const StyledHeader = styled.header`
   position: relative;
@@ -33,11 +33,6 @@ const StyledButton = styled.button`
   }
 `;
 
-const Img = styled.img`
-  margin-inline: auto;
-  width: 13.5rem;
-`;
-
 export default function SidebarHeader({ isCollapsed, setIsCollapsed }) {
   return (
     <StyledHeader>
@@ -48,15 +43,7 @@ export default function SidebarHeader({ isCollapsed, setIsCollapsed }) {
         {isCollapsed ? <HiOutlineChevronRight /> : <HiOutlineChevronLeft />}
       </StyledButton>
 
-      <picture>
-        <Img
-          src={lightLogo}
-          alt="Logo"
-          width="150"
-          height="107"
-          loading="lazy"
-        />
-      </picture>
+      <Logo />
     </StyledHeader>
   );
 }

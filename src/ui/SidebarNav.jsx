@@ -113,7 +113,7 @@ const NavItem = styled.li`
 `;
 
 const navLinks = [
-  { name: "Home", icon: <HiOutlineHome />, url: "/home" },
+  { name: "Home", icon: <HiOutlineHome />, url: "/" },
   { name: "Bookings", icon: <HiOutlineCalendarDays />, url: "/bookings" },
   { name: "Cabins", icon: <HiOutlineHomeModern />, url: "/cabins" },
   { name: "Users", icon: <HiOutlineUsers />, url: "/users" },
