@@ -1,12 +1,25 @@
 import styled, { keyframes } from "styled-components";
 
+const Wrapper = styled.div`
+  height: 100svh;
+  background-color: var(--color-grey-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @supports not (height: 100svh) {
+    /* Fallback for browsers without svh(small viewport height) support */
+    height: 100vh;
+  }
+`;
+
 const rotate = keyframes`
   to {
     transform: rotate(1turn)
   }
 `;
 
-const Spinner = styled.div`
+const StyledSpinner = styled.div`
   margin: 4.8rem auto;
 
   width: 6.4rem;
@@ -20,4 +33,12 @@ const Spinner = styled.div`
   animation: ${rotate} 1.5s infinite linear;
 `;
 
-export default Spinner;
+export default function Spinner({ type }) {
+  return type === "fullPage" ? (
+    <Wrapper>
+      <StyledSpinner />
+    </Wrapper>
+  ) : (
+    <StyledSpinner />
+  );
+}

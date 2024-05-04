@@ -19,9 +19,8 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      // Only for development
-      email: "krishandeep@example.com",
-      password: "Password1234",
+      email: "krishandeep@example.com", // PRE-FILL FOR DEV PURPOSES
+      password: "Password1234", // PRE-FILL FOR DEV PURPOSES
     },
     resolver: zodResolver(loginSchema),
   });
