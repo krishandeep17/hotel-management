@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import LoginForm from "../features/authentication/LoginForm";
@@ -7,6 +6,7 @@ import Logo from "../ui/Logo";
 
 const LoginLayout = styled.main`
   min-height: 100svh;
+  padding: 4rem 1rem 6.4rem;
   display: grid;
   grid-template-columns: 48rem;
   align-content: center;
@@ -23,9 +23,7 @@ const LoginLayout = styled.main`
 export default function Login() {
   return (
     <LoginLayout>
-      <Link to="/">
-        <Logo />
-      </Link>
+      <Logo />
       <Heading as="h4">Log in to your account</Heading>
       <LoginForm />
     </LoginLayout>

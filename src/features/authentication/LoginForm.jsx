@@ -5,35 +5,45 @@ import { loginSchema } from "../../models/authModel";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
+import SpinnerMini from "../../ui/SpinnerMini";
 import ValidatedInputField from "../../ui/ValidatedInputField";
+import useLogin from "./useLogin";
 
-function LoginForm() {
+export default function LoginForm() {
+  const { isPending, login } = useLogin();
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({
+    defaultValues: {
+      // Only for development
+      email: "krishandeep@example.com",
+      password: "Password1234",
+    },
     resolver: zodResolver(loginSchema),
   });
 
-  function onSubmit(data) {
-    console.log(data);
+  function onSubmit({ email, password }) {
+    if (!email || !password) return;
+
+    login({ email, password });
+
     reset();
   }
 
-  function onError(error) {
-    console.log(error);
-  }
-
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow vertical>
         <ValidatedInputField
           type="email"
           name="email"
-          autoComplete="email"
+          // This makes this form better for password managers
+          autoComplete="username"
           label="Email address"
+          disabled={isPending}
           register={register}
           error={errors?.email?.message}
         />
@@ -45,18 +55,17 @@ function LoginForm() {
           name="password"
           autoComplete="current-password"
           label="Password"
+          disabled={isPending}
           register={register}
           error={errors?.password?.message}
         />
       </FormRow>
 
-      <FormRow>
-        <Button type="submit" size="large">
-          Login
+      <FormRow vertical>
+        <Button type="submit" disabled={isPending} size="large">
+          {!isPending ? "Login" : <SpinnerMini />}
         </Button>
       </FormRow>
     </Form>
   );
 }
-
-export default LoginForm;
