@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Logout from "../features/authentication/LogOut";
 
 const StyledHeader = styled.header`
   grid-area: header;
@@ -13,5 +14,9 @@ const StyledHeader = styled.header`
 `;
 
 export default function Header() {
-  return <StyledHeader>Header</StyledHeader>;
+  return (
+    <StyledHeader>
+      <Logout />
+    </StyledHeader>
+  );
 }
