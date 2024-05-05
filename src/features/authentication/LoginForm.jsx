@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { loginSchema } from "../../models/authModel";
+import { LoginSchema } from "../../models/authModel";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
@@ -22,15 +22,13 @@ export default function LoginForm() {
       email: "krishandeep@example.com", // PRE-FILL FOR DEV PURPOSES
       password: "Password1234", // PRE-FILL FOR DEV PURPOSES
     },
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(LoginSchema),
   });
 
   function onSubmit({ email, password }) {
     if (!email || !password) return;
 
-    login({ email, password });
-
-    reset();
+    login({ email, password }, { onSettled: () => reset() });
   }
 
   return (
