@@ -9,6 +9,7 @@ export default function useUser() {
 
   return {
     isPending,
+    user,
     isAuthenticated: user?.role === "authenticated",
   };
 }
