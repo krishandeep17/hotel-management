@@ -80,16 +80,17 @@ export default function UpdateSettingsForm() {
       </FormRow>
 
       <FormRow>
-        <Button type="submit" disabled={isUpdating}>
-          Update settings
-        </Button>
-
         <Button
+          type="button"
           disabled={isUpdating}
           variation="secondary"
           onClick={() => reset()}
         >
-          Restore Defaults
+          Cancel
+        </Button>
+
+        <Button type="submit" disabled={isUpdating}>
+          Update settings
         </Button>
       </FormRow>
     </Form>

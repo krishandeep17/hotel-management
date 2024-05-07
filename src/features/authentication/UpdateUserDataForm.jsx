@@ -1,57 +1,97 @@
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
 import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
 
-import { useUser } from "./useUser";
+import ValidatedInputField from "../../ui/ValidatedInputField";
+import ValidatedInputFile from "../../ui/ValidatedInputFile";
+import useUser from "./useUser";
+import { UpdateUserDataSchema } from "../../models/authModel";
+import useUpdateUser from "./useUpdateUser";
 
-function UpdateUserDataForm() {
+export default function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
+  const { user } = useUser();
+
+  const { isUpdating, updateCurrentUser } = useUpdateUser();
+
   const {
-    user: {
-      email,
-      user_metadata: { fullName: currentFullName },
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: user?.email,
+      fullName: user?.user_metadata?.fullName,
     },
-  } = useUser();
+    resolver: zodResolver(UpdateUserDataSchema),
+  });
 
-  const [fullName, setFullName] = useState(currentFullName);
-  const [avatar, setAvatar] = useState(null);
+  function onSubmit({ fullName, avatar }) {
+    if (!fullName) return;
 
-  function handleSubmit(e) {
-    e.preventDefault();
+    updateCurrentUser({ fullName, avatar }, { onSettled: () => reset() });
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormRow label="Email address">
-        <Input value={email} disabled />
-      </FormRow>
-      <FormRow label="Full name">
-        <Input
-          type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          id="fullName"
-        />
-      </FormRow>
-      <FormRow label="Avatar image">
-        <FileInput
-          id="avatar"
-          accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
-        />
-      </FormRow>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Button type="reset" variation="secondary">
+        <ValidatedInputField
+          type="email"
+          name="email"
+          label="Email address"
+          disabled={true}
+          register={register}
+          error={errors?.email?.message}
+        />
+      </FormRow>
+
+      <FormRow>
+        <ValidatedInputField
+          type="text"
+          name="fullName"
+          label="Full name"
+          disabled={isUpdating}
+          register={register}
+          error={errors?.fullName?.message}
+        />
+      </FormRow>
+
+      <FormRow>
+        <Controller
+          disabled={isUpdating}
+          name="avatar"
+          control={control}
+          render={({ field }) => (
+            <ValidatedInputFile
+              label="Avatar image"
+              error={errors?.image?.message}
+              field={field}
+              accept="image/*"
+            />
+          )}
+        />
+      </FormRow>
+
+      <FormRow>
+        <Button
+          type="button"
+          disabled={isUpdating}
+          variation="secondary"
+          onClick={() => reset()}
+        >
           Cancel
         </Button>
-        <Button>Update account</Button>
+
+        <Button type="submit" disabled={isUpdating}>
+          {!isUpdating ? "Update account" : "Updating..."}
+        </Button>
       </FormRow>
     </Form>
   );
 }
-
-export default UpdateUserDataForm;
