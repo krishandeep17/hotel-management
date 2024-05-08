@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
+import darkLogo from "../assets/logo-dark.png";
 import lightLogo from "../assets/logo-light.png";
+import { useDarkModeContext } from "../contexts/DarkModeContext";
 
 const Img = styled.img`
   margin-inline: auto;
@@ -8,9 +10,17 @@ const Img = styled.img`
 `;
 
 export default function Logo() {
+  const { isDarkMode } = useDarkModeContext();
+
   return (
     <picture>
-      <Img src={lightLogo} alt="Logo" width="150" height="107" loading="lazy" />
+      <Img
+        src={isDarkMode ? darkLogo : lightLogo}
+        alt="Logo"
+        width="150"
+        height="107"
+        loading="lazy"
+      />
     </picture>
   );
 }
