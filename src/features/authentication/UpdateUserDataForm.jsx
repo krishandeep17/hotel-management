@@ -35,7 +35,18 @@ export default function UpdateUserDataForm() {
   function onSubmit({ fullName, avatar }) {
     if (!fullName) return;
 
-    updateCurrentUser({ fullName, avatar }, { onSettled: () => reset() });
+    updateCurrentUser(
+      { fullName, avatar },
+      {
+        onSuccess: (data) =>
+          reset({
+            email: data?.user?.email,
+            fullName: data?.user?.user_metadata?.fullName,
+          }),
+      }
+    );
+
+    reset();
   }
 
   return (
