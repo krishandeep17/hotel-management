@@ -107,7 +107,7 @@ const GlobalStyles = createGlobalStyle`
   margin: 0;
 
   /* Creating animations for dark mode */
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, border 0.3s;
 }
 
 *:disabled {
@@ -122,6 +122,9 @@ body {
   color: var(--color-grey-700);
   font: 1.6rem/1.5 "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
+  
+  transition: color 0.3s, background-color 0.3s;
+  min-height: 100vh;
 }
 
 img,
