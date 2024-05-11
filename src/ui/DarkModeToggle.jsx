@@ -1,10 +1,10 @@
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
 
-import { useDarkModeContext } from "../contexts/DarkModeContext";
+import { useDarkMode } from "../contexts/DarkModeContext";
 import ButtonIcon from "./ButtonIcon";
 
 export default function DarkModeToggle() {
-  const { isDarkMode, toggleDarkMode } = useDarkModeContext();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <ButtonIcon
